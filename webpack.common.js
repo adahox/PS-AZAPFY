@@ -3,9 +3,12 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 
 module.exports = {
-    entry: './src/index.js',
+    entry: './src/index.ts',
     plugins: [
-        new HtmlWebpackPlugin()
+        new HtmlWebpackPlugin({
+            filename: 'index.html',
+            template: path.resolve('./public/index.html')
+        }),
     ],
     module: {
         rules: [
@@ -16,11 +19,18 @@ module.exports = {
                     loader: "babel-loader",
                     options: {
                         presets: ['@babel/preset-env']
-                    }
+                    },
                 }
             },
-
+            { test: /\.ts$/, loader: "ts-loader", },
+            {
+                test: /\.html$/,
+                loader: 'html-loader',
+            },
         ]
+    },
+    resolve: {
+        extensions: [".ts", ".js", ".html", ".png", ".jpeg", ".jpg"]
     },
     output: {
         filename: 'bundle.js',
